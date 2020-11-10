@@ -11,6 +11,7 @@ import getBinSizeDescription from '../../functions/getBinSizeDescription';
 import { Checkbox, STYLE_TYPE, LABEL_PLACEMENT } from 'baseui/checkbox';
 import { Tabs, Tab, FILL } from 'baseui/tabs-motion';
 import { StyledLink } from 'baseui/link';
+import GridIcon from '../../assets/GridIcon.js';
 const Sidebar = ({
    shape,
    setShape,
@@ -23,14 +24,19 @@ const Sidebar = ({
    mapVisible,
    setMapVisible,
    collection,
+   projection,
+   setProjection,
 }) => {
    const [activeKey, setActiveKey] = useState('0');
    return (
       <div className={styles.sidebar}>
          <div className={styles.top}>
-            <Title>CartoGridder</Title>
-            <Paragraph>
-               Generate grid-based maps from administrative boundaries.
+            <Title>
+               <GridIcon style={{ paddingRight: 5, paddingTop: 2 }} />
+               CartoGridder
+            </Title>
+            <Paragraph style={{ marginBottom: 5 }}>
+               Generate GeoJSON grid-based maps from administrative boundaries.
             </Paragraph>
          </div>
          <Tabs
@@ -55,7 +61,7 @@ const Sidebar = ({
                   <SectionTitle>Grid Type</SectionTitle>
                   <Select
                      options={[
-                        { label: 'Hex', value: 'hex' },
+                        { label: 'Hexagon', value: 'hex' },
                         { label: 'Square', value: 'square' },
                         { label: 'Triangle', value: 'triangle' },
                      ]}
@@ -101,8 +107,27 @@ const Sidebar = ({
                      max={500}
                   />
                </div>
-               <div className={styles.item}>
+               {/* <div className={styles.item}>
                   <SectionTitle>Base Map</SectionTitle>
+                  <RadioGroup
+                     value={projection}
+                     onChange={(e) => setProjection(e.target.value)}
+                     name="projection"
+                     overrides={{
+                        Label: {
+                           style: () => {
+                              return {
+                                 color: `rgba(0,0,0,0.7)`,
+                                 fontWeight: 'normal',
+                                 fontSize: '14px',
+                              };
+                           },
+                        },
+                     }}
+                  >
+                     <Radio value="mercator">Mercator</Radio>
+                     <Radio value="globe">Globe</Radio>
+                  </RadioGroup>
                   <Checkbox
                      checked={mapVisible}
                      checkmarkType={STYLE_TYPE.toggle_round}
@@ -122,13 +147,13 @@ const Sidebar = ({
                   >
                      Base map visible
                   </Checkbox>
-               </div>
+               </div> */}
 
                <Button
                   onClick={() => download(value[0].label, collection)}
                   disabled={collection.features.length === 0}
                >
-                  Download
+                  Download GeoJSON
                </Button>
             </Tab>
             <Tab title="About">

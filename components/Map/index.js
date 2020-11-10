@@ -6,17 +6,34 @@ import DeckGL from '@deck.gl/react';
 
 import styles from './index.module.scss';
 import layer from './layer';
+import globe from './globe';
 import useViewport from '../../hooks/useViewport';
 import calculateBounds from './functions/calculateBounds';
 import { Spinner } from 'baseui/spinner';
 import { StaticMap } from 'react-map-gl';
-const Map = ({ collection, bounds, size, loading, mapVisible }) => {
+import { theme } from './globe';
+const NEXT_PUBLIC_MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
+const Map = ({ collection, bounds, size, loading, mapVisible, projection }) => {
    const [viewState, setViewState] = useState({
       latitude: 1.7031799208128016,
       longitude: 17.54684579848662,
       zoom: 0,
       // target: [1.7, 17, 0],
    });
+
+   const [world, setWorld] = useState({
+      type: 'FeatureCollection',
+      features: [],
+   });
+
+   useEffect(() => {
+      async function fetchWorld() {
+         const response = await fetch('/world.json').then((res) => res.json());
+         setWorld(response);
+      }
+
+      fetchWorld();
+   }, []);
 
    const layers = [
       // new SolidPolygonLayer({
@@ -36,14 +53,16 @@ const Map = ({ collection, bounds, size, loading, mapVisible }) => {
       //    filled: true,
       //    getFillColor: [230, 230, 230],
       // }),
+      ...(projection === 'globe' && mapVisible ? globe({ world }) : []),
       layer({ data: collection, size }),
    ];
 
-   const viewport = useViewport(viewState);
+   const viewport = useViewport(viewState, projection);
 
    useEffect(() => {
       if (bounds.length === 4 && !bounds.includes(null)) {
          const newViewState = calculateBounds(bounds, viewport);
+         console.log(newViewState);
          setViewState({
             ...newViewState,
             transitionInterpolator: new FlyToInterpolator(),
@@ -53,7 +72,10 @@ const Map = ({ collection, bounds, size, loading, mapVisible }) => {
    }, [bounds]);
 
    return (
-      <div className={styles.map}>
+      <div
+         className={styles.map}
+         style={{ background: theme.globeContainerBackground }}
+      >
          {loading && (
             <div className={styles['spinner-container']}>
                <Spinner />
@@ -66,15 +88,22 @@ const Map = ({ collection, bounds, size, loading, mapVisible }) => {
             initialViewState={viewState}
             controller={true}
             onViewStateChange={({ viewState }) => setViewState(viewState)}
+            parameters={{
+               cull: true,
+               // depthTest: false,
+            }}
          >
-            {/* <GlobeView id="globe" /> */}
             {mapVisible && (
-               <StaticMap
-                  mapboxApiAccessToken={
-                     'pk.eyJ1IjoiYmFiYnMiLCJhIjoiY2s1b2JoMjZvMGYydzNmbXAxMXp1NWZhZyJ9.LEHmtAFLAij67eF-54FjxA'
-                  }
-                  visible={mapVisible}
-               />
+               <>
+                  {projection === 'globe' ? (
+                     <GlobeView id="globe" />
+                  ) : (
+                     <StaticMap
+                        mapboxApiAccessToken={NEXT_PUBLIC_MAPBOX_TOKEN}
+                        visible={mapVisible}
+                     />
+                  )}
+               </>
             )}
          </DeckGL>
       </div>

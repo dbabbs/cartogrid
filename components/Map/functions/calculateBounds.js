@@ -1,5 +1,3 @@
-import bbox from '@turf/bbox';
-
 function calculateBounds(bounds, viewport, padding = 50) {
    const [minLng, minLat, maxLng, maxLat] = bounds;
    let newViewState = null;
@@ -17,6 +15,9 @@ function calculateBounds(bounds, viewport, padding = 50) {
       newViewState = viewport.fitBounds([
          [minLng, minLat],
          [maxLng, maxLat],
+         {
+            padding: 0,
+         },
       ]);
    }
 

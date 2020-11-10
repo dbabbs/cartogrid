@@ -3,7 +3,7 @@ import styles from '../styles/app.module.scss';
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
 import useDebounce from '../hooks/useDebounce';
-
+import SEO from '../components/SEO';
 import { Toast, ToasterContainer, KIND, PLACEMENT } from 'baseui/toast';
 
 const Index = () => {
@@ -14,9 +14,12 @@ const Index = () => {
    const [loading, setLoading] = useState(false);
    const [bounds, setBounds] = useState([]);
 
+   const [projection, setProjection] = useState('mercator');
+
    const [size, setSize] = useState(100);
-   const [shape, setShape] = useState([{ label: 'Hex', value: 'hex' }]); //choice of "hex", "point", "square", "triangle"
    const debouncedSize = useDebounce(size, 900);
+   const [shape, setShape] = useState([{ label: 'Hex', value: 'hex' }]);
+
    const [units, setUnits] = useState('km');
    const [value, setValue] = useState([]);
    const [error, setError] = useState(false);
@@ -45,37 +48,43 @@ const Index = () => {
    }, [debouncedSize, shape, value, units]);
 
    return (
-      <div className={styles.app}>
-         <Map
-            collection={collection}
-            bounds={bounds}
-            size={size}
-            loading={loading}
-            mapVisible={mapVisible}
-         />
-         <Sidebar
-            shape={shape}
-            setShape={setShape}
-            value={value}
-            setValue={setValue}
-            units={units}
-            setUnits={setUnits}
-            size={size}
-            setSize={setSize}
-            mapVisible={mapVisible}
-            setMapVisible={setMapVisible}
-            collection={collection}
-         />
-         <div className={styles['toast-container']}>
-            {error && (
-               <ToasterContainer placement={PLACEMENT.bottomRight}>
-                  <Toast kind={KIND.negative} autoHideDuration={3000}>
-                     Negative notification
-                  </Toast>
-               </ToasterContainer>
-            )}
+      <>
+         <SEO />
+         <div className={styles.app}>
+            <Map
+               collection={collection}
+               bounds={bounds}
+               size={size}
+               loading={loading}
+               mapVisible={mapVisible}
+               projection={projection}
+            />
+            <Sidebar
+               shape={shape}
+               setShape={setShape}
+               value={value}
+               setValue={setValue}
+               units={units}
+               setUnits={setUnits}
+               size={size}
+               setSize={setSize}
+               mapVisible={mapVisible}
+               setMapVisible={setMapVisible}
+               collection={collection}
+               projection={projection}
+               setProjection={setProjection}
+            />
+            <div className={styles['toast-container']}>
+               {error && (
+                  <ToasterContainer placement={PLACEMENT.bottomRight}>
+                     <Toast kind={KIND.negative} autoHideDuration={3000}>
+                        Negative notification
+                     </Toast>
+                  </ToasterContainer>
+               )}
+            </div>
          </div>
-      </div>
+      </>
    );
 };
 
