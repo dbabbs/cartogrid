@@ -1,0 +1,20 @@
+.sidebar {
+   position: absolute;
+   // z-index: 1;
+   width: 300px;
+   margin: 15px;
+   background: white;
+   border: 1px solid lightgrey;
+
+   .top {
+      padding: 15px;
+      padding-bottom: 0;
+   }
+   .item {
+      margin-bottom: 15px;
+   }
+
+   .content {
+      padding: 15px;
+   }
+}

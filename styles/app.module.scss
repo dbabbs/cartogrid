@@ -1,0 +1,12 @@
+.app {
+   height: 100vh;
+   width: 100vw;
+   position: absolute;
+
+   .toast-container {
+      z-index: 5000;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+   }
+}
