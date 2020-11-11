@@ -15,10 +15,9 @@ import { theme } from './globe';
 const NEXT_PUBLIC_MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 const Map = ({ collection, bounds, size, loading, mapVisible, projection }) => {
    const [viewState, setViewState] = useState({
-      latitude: 1.7031799208128016,
-      longitude: 17.54684579848662,
-      zoom: 0,
-      // target: [1.7, 17, 0],
+      latitude: 35.492696316137526,
+      longitude: 131.32047909091202,
+      zoom: 4.416726761134002,
    });
 
    const [world, setWorld] = useState({

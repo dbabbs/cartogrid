@@ -1,35 +1,29 @@
+import React, { useState, useEffect, useRef } from 'react';
 import Map from '../components/Map';
 import styles from '../styles/app.module.scss';
-import React, { useState, useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
 import useDebounce from '../hooks/useDebounce';
 import SEO from '../components/SEO';
-import {
-   toaster,
-   Toast,
-   ToasterContainer,
-   KIND,
-   PLACEMENT,
-} from 'baseui/toast';
-
+import { toaster, ToasterContainer, PLACEMENT } from 'baseui/toast';
+import initialCollection from '../public/japanCollection.json';
 const Index = () => {
-   const [collection, setCollection] = useState({
-      type: 'FeatureCollection',
-      features: [],
-   });
+   const [collection, setCollection] = useState(initialCollection);
    const [loading, setLoading] = useState(false);
    const [bounds, setBounds] = useState([]);
 
    const [projection, setProjection] = useState('mercator');
 
-   const [size, setSize] = useState(100);
+   const [size, setSize] = useState(30);
    const debouncedSize = useDebounce(size, 900);
-   const [shape, setShape] = useState([{ label: 'Hex', value: 'hex' }]);
+   const [shape, setShape] = useState([{ label: 'Square', value: 'square' }]);
 
    const [units, setUnits] = useState('km');
-   const [value, setValue] = useState([]);
+   const [value, setValue] = useState([
+      { id: 'NT_G0y0B8hM9PcQPRUcNPpzFD', label: 'Japan', level: 'country' },
+   ]);
 
    const [mapVisible, setMapVisible] = React.useState(true);
+   const isMounted = useRef(false);
 
    useEffect(() => {
       if (value[0]?.level === 'country' || value[0]?.level === 'state') {
@@ -40,7 +34,6 @@ const Index = () => {
    useEffect(() => {
       async function fetchData() {
          setLoading(true);
-
          try {
             const response = await fetch(
                `/api/create?size=${size}&shape=${shape[0].value}&id=${value[0].id}&level=${value[0].level}&units=${units}`
@@ -65,8 +58,13 @@ const Index = () => {
             setLoading(false);
          }
       }
-      if (value.length > 0) {
-         fetchData();
+      if (isMounted.current) {
+         if (value.length > 0) {
+            fetchData();
+            console.log('query...');
+         }
+      } else {
+         isMounted.current = true;
       }
    }, [debouncedSize, shape, value, units]);
 

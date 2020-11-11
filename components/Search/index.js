@@ -38,6 +38,16 @@ const Search = ({ value, setValue, setError }) => {
                   ];
                }
             });
+            if (
+               inputValue.toLowerCase() ===
+               'china'.substring(0, inputValue.length)
+            ) {
+               levels['Country'].push({
+                  label: 'China',
+                  id: 'china',
+                  level: 'country',
+               });
+            }
 
             setOptions(levels);
          } catch (e) {

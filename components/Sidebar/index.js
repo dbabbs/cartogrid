@@ -196,8 +196,12 @@ const Sidebar = ({
             </Tab>
             <Tab title="About">
                <Paragraph style={{ marginTop: 0 }}>
-                  Use this tool to generate and download grid-based maps from
-                  administrative-level boundary geometries.
+                  Warning: this tool is experimental and you may encounter
+                  errors.
+               </Paragraph>
+               <Paragraph style={{ marginTop: 0 }}>
+                  Use this tool to generate and download grid-based datasets
+                  from administrative-level boundary geometries.
                </Paragraph>
                <Paragraph>
                   City, county, state, and country level zones (excluding China)
