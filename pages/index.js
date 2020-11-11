@@ -4,7 +4,13 @@ import React, { useState, useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
 import useDebounce from '../hooks/useDebounce';
 import SEO from '../components/SEO';
-import { Toast, ToasterContainer, KIND, PLACEMENT } from 'baseui/toast';
+import {
+   toaster,
+   Toast,
+   ToasterContainer,
+   KIND,
+   PLACEMENT,
+} from 'baseui/toast';
 
 const Index = () => {
    const [collection, setCollection] = useState({
@@ -54,6 +60,7 @@ const Index = () => {
                setCollection(response.collection);
                setBounds(response.bounds);
                setLoading(false);
+               toaster.negative();
             }
          } catch (e) {
             setError({
@@ -102,11 +109,10 @@ const Index = () => {
             />
             <div className={styles['toast-container']}>
                {error.flag && (
-                  <ToasterContainer placement={PLACEMENT.bottomRight}>
-                     <Toast kind={KIND.negative} autoHideDuration={8000}>
-                        {error.message}
-                     </Toast>
-                  </ToasterContainer>
+                  <Toast kind={KIND.negative} autoHideDuration={8000}>
+                     {error.message}
+                  </Toast>
+                  // </ToasterContainer>
                )}
             </div>
          </div>
