@@ -9,11 +9,23 @@ import queryShapeById from '../../functions/queryShapeById';
 export default async (req, res) => {
    try {
       const { size: _size, shape, id, level, units } = req.query;
+
+      if (
+         id === 'NT_Ya5FK7rlnK5m6PEDf7BwfA' ||
+         id === 'NT_YNyDRrNT727bvYdjC-oR1C' ||
+         id === 'NT_jhhTwSLmSRweTGoDKjeSWC'
+      ) {
+         res.json({
+            error: true,
+            message: 'This geometry is currently not supported.',
+         });
+         return;
+      }
       const geometry = await queryShapeById(id, level);
 
       const output = [];
 
-      const bounds = bbox(geometry);
+      const bounds = geometry ? bbox(geometry) : [-150, -80, 150, 80];
 
       var options = { units: 'kilometers' };
 
@@ -46,7 +58,7 @@ export default async (req, res) => {
          res.json({
             error: true,
             message:
-               'Please reduce the cell size amount in order to fit the boundary geometry',
+               'Please reduce the cell size amount in order to fit the boundary geometry.',
          });
       } else {
          res.statusCode = 200;
@@ -59,7 +71,7 @@ export default async (req, res) => {
       res.json({
          error: true,
          message:
-            'Error with creating the geometry. Please try a different geometry',
+            'Error with creating the geometry. Please try a different geometry.',
       });
    }
 };

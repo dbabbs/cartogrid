@@ -4,20 +4,20 @@ const base = `https://cartogrid.vercel.app/`;
 const SEO = () => {
    return (
       <NextSeo
-         title="CartoGrid"
-         description="Make grid-based maps from administrative boundary geometries"
+         title="CartoGrid - Generate grid-based maps from administrative boundary geometries"
+         description="Generate grid-based maps from administrative boundary geometries"
          canonical={base}
          openGraph={{
             url: base,
             title: 'CartoGrid',
             description:
-               'Make grid-based maps from administrative boundary geometries',
+               'Generate grid-based maps from administrative boundary geometries',
             images: [
                {
                   url: base + 'open-graph.png',
                   width: 1024,
                   height: 512,
-                  alt: 'Og Image Alt',
+                  alt: 'grid based map of Japan',
                },
             ],
             site_name: 'CartoGrid',

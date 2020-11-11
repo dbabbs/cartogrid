@@ -28,16 +28,19 @@ const Sidebar = ({
    projection,
    setProjection,
    enableMeters,
+   setError,
 }) => {
    const [activeKey, setActiveKey] = useState('0');
 
    return (
       <div className={styles.sidebar}>
          <div className={styles.top}>
-            <Title>
-               <GridIcon style={{ paddingRight: 5, paddingTop: 2 }} />
-               CartoGrid{' '}
-            </Title>
+            <div className={styles.animator}>
+               <Title>
+                  <GridIcon className={styles.icon} />
+                  CartoGrid{' '}
+               </Title>
+            </div>
             <Paragraph style={{ marginBottom: 5 }}>
                Generate GeoJSON grid-based maps from administrative boundaries.
             </Paragraph>
@@ -56,10 +59,16 @@ const Sidebar = ({
                      Administrative Zone
                   </SectionTitle>
                   <Paragraph>
-                     eg: San Francisco, Florida, Italy, or India
+                     eg: San Francisco, Florida, Italy, or India.
                   </Paragraph>
-                  <Search value={value} setValue={setValue} />
+                  <Search
+                     value={value}
+                     setValue={setValue}
+                     setError={setError}
+                  />
+                  <Paragraph>Russia and USA are coming soon.</Paragraph>
                </div>
+
                <div className={styles.item}>
                   <SectionTitle>Grid Type</SectionTitle>
                   <Select
@@ -165,8 +174,10 @@ const Sidebar = ({
                </div> */}
 
                <Button
-                  onClick={() => download(value[0].label, collection)}
-                  disabled={collection.features.length === 0}
+                  onClick={() => download(value[0]?.label, collection)}
+                  disabled={
+                     collection.features.length === 0 && value.length === 0
+                  }
                >
                   Download GeoJSON
                </Button>

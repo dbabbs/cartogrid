@@ -39,20 +39,27 @@ const Index = () => {
       async function fetchData() {
          setLoading(true);
 
-         console.log(units);
-         const response = await fetch(
-            `/api/create?size=${size}&shape=${shape[0].value}&id=${value[0].id}&level=${value[0].level}&units=${units}`
-         ).then((res) => res.json());
+         try {
+            const response = await fetch(
+               `/api/create?size=${size}&shape=${shape[0].value}&id=${value[0].id}&level=${value[0].level}&units=${units}`
+            ).then((res) => res.json());
 
-         if (response.hasOwnProperty('error')) {
+            if (response.hasOwnProperty('error')) {
+               setError({
+                  flag: true,
+                  message: response.message,
+               });
+               setLoading(false);
+            } else {
+               setCollection(response.collection);
+               setBounds(response.bounds);
+               setLoading(false);
+            }
+         } catch (e) {
             setError({
                flag: true,
-               message: response.message,
+               message: 'Error communicating with server. Please try again.',
             });
-            setLoading(false);
-         } else {
-            setCollection(response.collection);
-            setBounds(response.bounds);
             setLoading(false);
          }
       }
@@ -91,6 +98,7 @@ const Index = () => {
                projection={projection}
                setProjection={setProjection}
                enableMeters={enableMeters}
+               setError={setError}
             />
             <div className={styles['toast-container']}>
                {error.flag && (
