@@ -1,6 +1,6 @@
 import { NextSeo } from 'next-seo';
 
-const base = `https://carto-gridder.vercel.app`;
+const base = `https://cartogrid.vercel.app/`;
 const SEO = () => {
    return (
       <NextSeo
@@ -8,12 +8,12 @@ const SEO = () => {
          description="Make grid-based maps from administrative boundary geometries"
          canonical={base}
          openGraph={{
-            url: 'https://www.url.ie/a',
+            url: base,
             title: 'Open Graph Title',
             description: 'Open Graph Description',
             images: [
                {
-                  url: base + '/' + 'open-graph.png',
+                  url: base + 'open-graph.png',
                   width: 800,
                   height: 600,
                   alt: 'Og Image Alt',

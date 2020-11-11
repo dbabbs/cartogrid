@@ -188,6 +188,17 @@ const Sidebar = ({
                   .
                </Paragraph>
                <Paragraph>
+                  Built with{' '}
+                  <StyledLink target="_blank" href="https://nextjs.org/">
+                     Next.js
+                  </StyledLink>
+                  , deployed with{' '}
+                  <StyledLink target="_blank" href="https://vercel.com/">
+                     Vercel
+                  </StyledLink>
+                  .
+               </Paragraph>
+               <Paragraph>
                   This tool was created for Day 10 of the{' '}
                   <StyledLink
                      target="_blank"
@@ -209,6 +220,16 @@ const Sidebar = ({
                      href="https://twitter.com/burritojustice"
                   >
                      @burritojustice
+                  </StyledLink>
+                  .
+               </Paragraph>
+               <Paragraph style={{ marginBottom: 0 }}>
+                  View the code on{' '}
+                  <StyledLink
+                     target="_blank"
+                     href="https://github.com/dbabbs/cartogrid"
+                  >
+                     Github
                   </StyledLink>
                   .
                </Paragraph>
