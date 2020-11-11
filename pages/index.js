@@ -22,19 +22,33 @@ const Index = () => {
 
    const [units, setUnits] = useState('km');
    const [value, setValue] = useState([]);
-   const [error, setError] = useState(false);
+   const [error, setError] = useState({
+      flag: false,
+      message: '',
+   });
 
    const [mapVisible, setMapVisible] = React.useState(true);
 
    useEffect(() => {
+      if (value[0]?.level === 'country' || value[0]?.level === 'state') {
+         setUnits('km');
+      }
+   }, [value]);
+
+   useEffect(() => {
       async function fetchData() {
          setLoading(true);
+
+         console.log(units);
          const response = await fetch(
             `/api/create?size=${size}&shape=${shape[0].value}&id=${value[0].id}&level=${value[0].level}&units=${units}`
          ).then((res) => res.json());
 
          if (response.hasOwnProperty('error')) {
-            setError(true);
+            setError({
+               flag: true,
+               message: response.message,
+            });
             setLoading(false);
          } else {
             setCollection(response.collection);
@@ -46,6 +60,9 @@ const Index = () => {
          fetchData();
       }
    }, [debouncedSize, shape, value, units]);
+
+   const enableMeters =
+      value[0]?.level !== 'country' && value[0]?.level !== 'state';
 
    return (
       <>
@@ -73,12 +90,13 @@ const Index = () => {
                collection={collection}
                projection={projection}
                setProjection={setProjection}
+               enableMeters={enableMeters}
             />
             <div className={styles['toast-container']}>
-               {error && (
+               {error.flag && (
                   <ToasterContainer placement={PLACEMENT.bottomRight}>
-                     <Toast kind={KIND.negative} autoHideDuration={3000}>
-                        Negative notification
+                     <Toast kind={KIND.negative} autoHideDuration={8000}>
+                        {error.message}
                      </Toast>
                   </ToasterContainer>
                )}

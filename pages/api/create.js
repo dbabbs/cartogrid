@@ -3,7 +3,6 @@ import booleanPointInPolygon from '@turf/boolean-point-in-polygon';
 import squareGrid from '@turf/square-grid';
 import hexGrid from '@turf/hex-grid';
 import bbox from '@turf/bbox';
-import simplify from '@turf/simplify';
 import triangleGrid from '@turf/triangle-grid';
 import pointGrid from '@turf/point-grid';
 import queryShapeById from '../../functions/queryShapeById';
@@ -43,14 +42,24 @@ export default async (req, res) => {
          }
       });
 
-      res.statusCode = 200;
-      res.json({
-         collection: { type: 'FeatureCollection', features: output },
-         bounds,
-      });
+      if (geometry && output.length === 0) {
+         res.json({
+            error: true,
+            message:
+               'Please reduce the cell size amount in order to fit the boundary geometry',
+         });
+      } else {
+         res.statusCode = 200;
+         res.json({
+            collection: { type: 'FeatureCollection', features: output },
+            bounds,
+         });
+      }
    } catch (e) {
       res.json({
          error: true,
+         message:
+            'Error with creating the geometry. Please try a different geometry',
       });
    }
 };

@@ -4,7 +4,7 @@ const base = `https://carto-gridder.vercel.app`;
 const SEO = () => {
    return (
       <NextSeo
-         title="CartoGridder"
+         title="CartoGrid"
          description="Make grid-based maps from administrative boundary geometries"
          canonical={base}
          openGraph={{
@@ -19,7 +19,7 @@ const SEO = () => {
                   alt: 'Og Image Alt',
                },
             ],
-            site_name: 'CartoGridder',
+            site_name: 'CartoGrid',
          }}
          twitter={{
             handle: '@dbabbs',

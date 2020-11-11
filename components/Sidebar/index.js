@@ -12,6 +12,7 @@ import { Checkbox, STYLE_TYPE, LABEL_PLACEMENT } from 'baseui/checkbox';
 import { Tabs, Tab, FILL } from 'baseui/tabs-motion';
 import { StyledLink } from 'baseui/link';
 import GridIcon from '../../assets/GridIcon.js';
+import { StatefulTooltip } from 'baseui/tooltip';
 const Sidebar = ({
    shape,
    setShape,
@@ -26,14 +27,16 @@ const Sidebar = ({
    collection,
    projection,
    setProjection,
+   enableMeters,
 }) => {
    const [activeKey, setActiveKey] = useState('0');
+
    return (
       <div className={styles.sidebar}>
          <div className={styles.top}>
             <Title>
                <GridIcon style={{ paddingRight: 5, paddingTop: 2 }} />
-               CartoGridder
+               CartoGrid{' '}
             </Title>
             <Paragraph style={{ marginBottom: 5 }}>
                Generate GeoJSON grid-based maps from administrative boundaries.
@@ -47,7 +50,7 @@ const Sidebar = ({
             fill={FILL.fixed}
             activateOnFocus
          >
-            <Tab title="Configuration">
+            <Tab title="Query">
                <div className={styles.item}>
                   <SectionTitle style={{ marginTop: 0 }}>
                      Administrative Zone
@@ -92,7 +95,19 @@ const Sidebar = ({
                      }}
                   >
                      <Radio value="km">Kilometers</Radio>
-                     <Radio value="m">Meters</Radio>
+                     {enableMeters ? (
+                        <Radio value="m">Meters</Radio>
+                     ) : (
+                        <Radio disabled={true} value="m">
+                           <StatefulTooltip
+                              accessibilityType={'tooltip'}
+                              content="Country and state level geometries only support KM"
+                              popoverMargin={8}
+                           >
+                              Meters
+                           </StatefulTooltip>
+                        </Radio>
+                     )}
                   </RadioGroup>
                </div>
                <div className={styles.item}>

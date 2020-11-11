@@ -62,7 +62,7 @@ const Map = ({ collection, bounds, size, loading, mapVisible, projection }) => {
    useEffect(() => {
       if (bounds.length === 4 && !bounds.includes(null)) {
          const newViewState = calculateBounds(bounds, viewport);
-         console.log(newViewState);
+
          setViewState({
             ...newViewState,
             transitionInterpolator: new FlyToInterpolator(),

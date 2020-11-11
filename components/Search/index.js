@@ -20,7 +20,6 @@ const Search = ({ value, setValue }) => {
          );
 
          const levels = {};
-
          response.suggestions.forEach((item) => {
             if (levels.hasOwnProperty(capitalize(item.matchLevel))) {
                levels[capitalize(item.matchLevel)].push({
