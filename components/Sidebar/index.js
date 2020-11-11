@@ -59,9 +59,7 @@ const Sidebar = ({
                   <SectionTitle style={{ marginTop: 0 }}>
                      Administrative Zone
                   </SectionTitle>
-                  <Paragraph>
-                     eg: San Francisco, Florida, Italy, or India.
-                  </Paragraph>
+                  <Paragraph>eg: San Francisco, Florida, or Italy.</Paragraph>
                   <Search value={value} setValue={setValue} />
                   <Paragraph>Russia and USA are coming soon.</Paragraph>
                </div>
