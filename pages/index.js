@@ -28,10 +28,6 @@ const Index = () => {
 
    const [units, setUnits] = useState('km');
    const [value, setValue] = useState([]);
-   const [error, setError] = useState({
-      flag: false,
-      message: '',
-   });
 
    const [mapVisible, setMapVisible] = React.useState(true);
 
@@ -51,22 +47,21 @@ const Index = () => {
             ).then((res) => res.json());
 
             if (response.hasOwnProperty('error')) {
-               setError({
-                  flag: true,
-                  message: response.message,
-               });
+               if (response.type === 'warn') {
+                  toaster.warning(response.message);
+               } else {
+                  toaster.negative(response.message);
+               }
                setLoading(false);
             } else {
                setCollection(response.collection);
                setBounds(response.bounds);
                setLoading(false);
-               toaster.negative();
             }
          } catch (e) {
-            setError({
-               flag: true,
-               message: 'Error communicating with server. Please try again.',
-            });
+            toaster.negative(
+               'Error communicating with server. Please try again.'
+            );
             setLoading(false);
          }
       }
@@ -105,16 +100,12 @@ const Index = () => {
                projection={projection}
                setProjection={setProjection}
                enableMeters={enableMeters}
-               setError={setError}
             />
-            <div className={styles['toast-container']}>
-               {error.flag && (
-                  <Toast kind={KIND.negative} autoHideDuration={8000}>
-                     {error.message}
-                  </Toast>
-                  // </ToasterContainer>
-               )}
-            </div>
+
+            <ToasterContainer
+               placement={PLACEMENT.bottomRight}
+               autoHideDuration={5000}
+            />
          </div>
       </>
    );

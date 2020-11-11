@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Select, TYPE } from 'baseui/select';
-
+import { toaster } from 'baseui/toast';
 const HERE_API_KEY = process.env.NEXT_PUBLIC_HERE_API_KEY;
 
 function capitalize(str) {
@@ -41,10 +41,9 @@ const Search = ({ value, setValue, setError }) => {
 
             setOptions(levels);
          } catch (e) {
-            setError({
-               flag: true,
-               message: 'Error communicating with server. Please try again.',
-            });
+            toaster.negative(
+               'Error communicating with server. Please try again.'
+            );
          }
       }
       if (inputValue.length > 0) {

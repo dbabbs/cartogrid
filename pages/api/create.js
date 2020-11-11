@@ -6,6 +6,7 @@ import bbox from '@turf/bbox';
 import triangleGrid from '@turf/triangle-grid';
 import pointGrid from '@turf/point-grid';
 import queryShapeById from '../../functions/queryShapeById';
+import calculateArea from '@turf/area';
 export default async (req, res) => {
    try {
       const { size: _size, shape, id, level, units } = req.query;
@@ -17,11 +18,14 @@ export default async (req, res) => {
       ) {
          res.json({
             error: true,
+            type: 'error',
             message: 'This geometry is currently not supported.',
          });
          return;
       }
       const geometry = await queryShapeById(id, level);
+
+      const area = geometry ? calculateArea(geometry) / 1000 : 0; //meters
 
       const output = [];
 
@@ -32,6 +36,15 @@ export default async (req, res) => {
       let grid = null;
 
       const size = units === 'km' ? _size : _size / 1000;
+
+      if (area / size > 300000000) {
+         res.json({
+            error: true,
+            type: 'warn',
+            message: 'Please increase the bin size for this geometry.',
+         });
+         return;
+      }
 
       if (shape === 'square') {
          grid = squareGrid(bounds, size, options);
@@ -57,8 +70,9 @@ export default async (req, res) => {
       if (geometry && output.length === 0) {
          res.json({
             error: true,
+            type: 'warn',
             message:
-               'Please reduce the cell size amount in order to fit the boundary geometry.',
+               'Please reduce the bin size amount in order to fit the boundary geometry.',
          });
       } else {
          res.statusCode = 200;
@@ -70,6 +84,7 @@ export default async (req, res) => {
    } catch (e) {
       res.json({
          error: true,
+         type: 'error',
          message:
             'Error with creating the geometry. Please try a different geometry.',
       });

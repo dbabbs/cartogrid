@@ -28,7 +28,6 @@ const Sidebar = ({
    projection,
    setProjection,
    enableMeters,
-   setError,
 }) => {
    const [activeKey, setActiveKey] = useState('0');
 
@@ -61,11 +60,7 @@ const Sidebar = ({
                   <Paragraph>
                      eg: San Francisco, Florida, Italy, or India.
                   </Paragraph>
-                  <Search
-                     value={value}
-                     setValue={setValue}
-                     setError={setError}
-                  />
+                  <Search value={value} setValue={setValue} />
                   <Paragraph>Russia and USA are coming soon.</Paragraph>
                </div>
 
