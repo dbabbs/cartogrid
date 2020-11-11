@@ -14,7 +14,6 @@ import { StyledLink } from 'baseui/link';
 import GridIcon from '../../assets/GridIcon.js';
 import { StatefulTooltip } from 'baseui/tooltip';
 
-
 const Sidebar = ({
    shape,
    setShape,
@@ -31,7 +30,6 @@ const Sidebar = ({
    setProjection,
    enableMeters,
 }) => {
-
    const [activeKey, setActiveKey] = useState('0');
 
    return (
@@ -130,9 +128,7 @@ const Sidebar = ({
                      max={500}
                      overrides={{
                         TickBar: ({ $min, $max }) => (
-                           <div
-                              className={styles['custom-tick']}
-                           >
+                           <div className={styles['custom-tick']}>
                               <div>
                                  {$min}
                                  {units}
@@ -226,7 +222,7 @@ const Sidebar = ({
                   .
                </Paragraph>
                <Paragraph>
-                  This tool was created for Day 10 of the{' '}
+                  This tool was created as part of the{' '}
                   <StyledLink
                      target="_blank"
                      href="https://twitter.com/tjukanov/status/1311568912950140930"
