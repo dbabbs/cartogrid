@@ -13,6 +13,8 @@ import { Tabs, Tab, FILL } from 'baseui/tabs-motion';
 import { StyledLink } from 'baseui/link';
 import GridIcon from '../../assets/GridIcon.js';
 import { StatefulTooltip } from 'baseui/tooltip';
+
+
 const Sidebar = ({
    shape,
    setShape,
@@ -29,6 +31,7 @@ const Sidebar = ({
    setProjection,
    enableMeters,
 }) => {
+
    const [activeKey, setActiveKey] = useState('0');
 
    return (
@@ -41,7 +44,8 @@ const Sidebar = ({
                </Title>
             </div>
             <Paragraph style={{ marginBottom: 5 }}>
-               Generate GeoJSON grid-based maps from administrative boundaries.
+               Prepare grid-based GeoJSON datasets from administrative boundary
+               shapes.
             </Paragraph>
          </div>
          <Tabs
@@ -124,6 +128,23 @@ const Sidebar = ({
                      onChange={({ value }) => setSize(value)}
                      min={1}
                      max={500}
+                     overrides={{
+                        TickBar: ({ $min, $max }) => (
+                           <div
+                              className={styles['custom-tick']}
+                           >
+                              <div>
+                                 {$min}
+                                 {units}
+                              </div>
+
+                              <div>
+                                 {$max}
+                                 {units}
+                              </div>
+                           </div>
+                        ),
+                     }}
                   />
                </div>
                {/* <div className={styles.item}>
