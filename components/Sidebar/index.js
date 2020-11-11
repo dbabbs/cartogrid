@@ -38,7 +38,7 @@ const Sidebar = ({
             <div className={styles.animator}>
                <Title>
                   <GridIcon className={styles.icon} />
-                  CartoGrid{' '}
+                  CartoGrid<sup>Beta</sup>
                </Title>
             </div>
             <Paragraph style={{ marginBottom: 5 }}>
