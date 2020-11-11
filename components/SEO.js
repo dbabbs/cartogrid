@@ -14,8 +14,8 @@ const SEO = () => {
             images: [
                {
                   url: base + 'open-graph.png',
-                  width: 800,
-                  height: 600,
+                  width: 1024,
+                  height: 512,
                   alt: 'Og Image Alt',
                },
             ],
