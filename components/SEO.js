@@ -9,8 +9,9 @@ const SEO = () => {
          canonical={base}
          openGraph={{
             url: base,
-            title: 'Open Graph Title',
-            description: 'Open Graph Description',
+            title: 'CartoGrid',
+            description:
+               'Make grid-based maps from administrative boundary geometries',
             images: [
                {
                   url: base + 'open-graph.png',
